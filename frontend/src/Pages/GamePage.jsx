@@ -493,7 +493,7 @@ function GamePage() {
     const fetchChansons = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://blindtest-n8ut.onrender.com/api/chansons', {
+      const response = await axios.get('https://blindtest-n8ut.onrender.com/api/chansons',  {
           params: {
             genres:     genres ? genres.join(',') : 'pop',
             difficulte: difficulte || 'facile'
