@@ -40,7 +40,6 @@ const styles = `
     pointer-events: none;
   }
 
-  /* ── Colonne gauche haut : score ── */
   .left-top {
     grid-column: 1;
     grid-row: 1;
@@ -138,7 +137,6 @@ const styles = `
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Colonne droite : détails ── */
   .right-col {
     grid-row: 1 / 3;
     grid-column: 2;
@@ -174,7 +172,6 @@ const styles = `
     flex-shrink: 0;
   }
 
-  /* Ligne manche */
   .manche-row {
     display: flex;
     flex-direction: column;
@@ -227,13 +224,6 @@ const styles = `
     flex: 1;
   }
 
-  .manche-artiste {
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: 96px;
-    margin-top: 2px;
-  }
-
   .manche-bottom {
     display: flex;
     flex-direction: column;
@@ -254,7 +244,6 @@ const styles = `
     font-weight: 600;
   }
 
-  /* ── Boutons bas gauche ── */
   .left-bottom {
     grid-column: 1;
     grid-row: 2;
@@ -307,10 +296,10 @@ const styles = `
     background: rgba(255,61,110,0.06);
   }
 
-   .note {
+  .note {
     position: absolute;
     font-size: 80px;
-    opacity: 0.04;
+    opacity: 0.4;
     pointer-events: none;
     user-select: none;
     font-family: serif;
@@ -320,32 +309,55 @@ const styles = `
   .note-2 { top: 60%; left: 8%; font-size: 80px; }
   .note-3 { top: 15%; right: 6%; font-size: 100px; }
   .note-4 { bottom: 10%; right: 10%; font-size: 90px; }
-  
-  /* Responsive mobile */
-  @media (max-width: 640px) {
+
+  /* ── Responsive mobile ── */
+  @media (max-width: 635px) {
     .result-wrapper {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto auto;
       padding: 24px 16px;
+      gap: 16px;
     }
 
-    .right-col {
-      grid-row: 2;
-      max-height: 400px;
+    /* Score en haut */
+    .left-top {
+      grid-column: 1;
+      grid-row: 1;
     }
 
+    /* Boutons en dessous du score */
     .left-bottom {
+      grid-column: 1;
+      grid-row: 2;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-rejouer, .btn-accueil {
+      font-size: 14px;
+      padding: 12px 10px;
+    }
+
+    /* Détails tout en bas */
+    .right-col {
+      grid-column: 1;
       grid-row: 3;
+      max-height: none;
+    }
+
+    .score-display {
+      padding: 16px 28px;
     }
   }
 `;
 
 const getMessageScore = (score) => {
-  if (score === 10) return { message: " WOW t'es injouable !" };
-  if (score >= 7)   return { message:" très bien joué !"};
-  if (score >= 5)   return { message: ' Bien joué !' };
-  if (score >= 1)   return { message: ' Refais une partie mon ami... ' };
-  return              {  message: "C'est bien l'école en fin de compte !" };
+  if (score === 10) return { message: "WOW t'es injouable !" };
+  if (score >= 7)   return { message: 'Très bien joué !' };
+  if (score >= 5)   return { message: 'Bien joué !' };
+  if (score >= 1)   return { message: 'Refais une partie mon ami...' };
+  return              { message: "C'est bien l'école en fin de compte !" };
 };
 
 function ResultPage() {
@@ -365,12 +377,11 @@ function ResultPage() {
         <span className="note note-3">♬</span>
         <span className="note note-4">♩</span>
 
-        {/* ── Haut gauche : score ── */}
+        {/* Haut gauche : score */}
         <div className="left-top">
           <div className="result-pseudo">
             Joueur : <span>{pseudo}</span>
           </div>
-
           <div>
             <div className="score-label">TON SCORE EST DE</div>
             <div className="score-display">
@@ -378,19 +389,16 @@ function ResultPage() {
               <span className="score-denom">/10</span>
             </div>
           </div>
-
           <div className="score-emoji">{emoji}</div>
-
           <div className="score-message">"{message}"</div>
         </div>
 
-        {/* ── Droite : détails manches ── */}
+        {/* Droite : détails manches */}
         <div className="right-col">
           <div className="details-title">
             <div className="dot" />
             DÉTAILS DE LA PARTIE
           </div>
-
           {manches.map((manche, i) => (
             <div
               key={i}
@@ -402,7 +410,6 @@ function ResultPage() {
                 <span className="manche-num">MANCHE {manche.numero}</span>
                 <span className="manche-titre">{manche.titre} - {manche.artiste}</span>
               </div>
-
               {!manche.correct && (
                 <div className="manche-bottom">
                   <span className="manche-wrong-answer">Ta réponse : {manche.reponseJoueur}</span>
@@ -412,13 +419,13 @@ function ResultPage() {
           ))}
         </div>
 
-        {/* ── Bas gauche : boutons ── */}
+        {/* Bas gauche : boutons */}
         <div className="left-bottom">
           <button className="btn-rejouer" onClick={() => navigate('/setup')}>
-             Rejouer une partie
+            Rejouer une partie
           </button>
           <button className="btn-accueil" onClick={() => navigate('/')}>
-             Retour à l'accueil
+            Retour à l'accueil
           </button>
         </div>
 
